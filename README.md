@@ -119,21 +119,22 @@ chmod 600 sshkey.private
 # Logging in via localhost using the key
 ssh -i sshkey.private bandit14@127.0.0.1 -p 2220
 
-## Level 14 → 15: Netcat & Port Submission
-Objective : 
-Submit the current level's password to port 30000 on the local machine to retrieve the password for the next level.
+---
 
-Key Learnings
-Netcat (nc): A utility for reading from and writing to network connections (TCP/UDP).
+##  Level 14 → 15: Netcat & Port Submission
 
-Piping (|): Used to pass the output of one command (reading the password file) directly as input to another command (sending it to the network port).
+### Objective
+Submit the current level's password to port `30000` on the local machine to retrieve the password for the next level.
 
-Solution Process
-I used cat to read the password file and piped it into nc connecting to localhost on port 30000.
+### Key Learnings
+* **Netcat (`nc`):** A utility for reading from and writing to network connections (TCP/UDP).
+* **Piping (`|`):** Used to pass the output of one command (reading the password file) directly as input to another command (sending it to the network port).
 
-Commands Used
-Bash
+### Solution Process
+I used `cat` to read the password file and piped it into `nc` connecting to localhost on port 30000.
 
+### Commands Used
+```bash
 cat /etc/bandit_pass/bandit14 | nc localhost 30000
 
 
