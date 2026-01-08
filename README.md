@@ -119,6 +119,8 @@ chmod 600 sshkey.private
 # Logging in via localhost using the key
 ssh -i sshkey.private bandit14@127.0.0.1 -p 2220
 
+```
+
 ---
 
 ##  Level 14 → 15: Netcat & Port Submission
