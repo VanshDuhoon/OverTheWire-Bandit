@@ -92,10 +92,48 @@ If you are playing this game, try solving the levels yourself first!
 * **What I Learnt:** Ek file ke andar multiple layers of compression ho sakti hain. `file` command se har step par type check karna zaroori hai.
 * **Password :** `FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn`
 
-## Level 13 -> Level 14
-* **Goal:** SSH Key (Private Key) use karke next level par login karna.
-* **Command:** `ssh -i sshkey.private bandit14@localhost -p 2220`
-* **What I Learnt:** Passwords ki jagah Private Keys (RSA) use karke secure login kaise hota hai.
-* **Password :**  `sshkey.private`
+
+## Level 13 → 14: SSH Private Keys & Permissions
+
+### Objective
+Login to the next level using a private SSH key (`sshkey.private`) found in the home directory, rather than a password.
+
+### Key Learnings
+1.  **SSH Identity Files:** Instead of a password, SSH can use a private key file for authentication using the `-i` flag.
+2.  **Permission Security:** SSH clients will reject private keys if they are too "open" (readable by others). Keys must be restricted to the owner only.
+3.  **Localhost Restrictions:** The Bandit server blocks SSH connections to the hostname `localhost` to force the use of specific IP addresses.
+
+### Challenges & Solutions
+* **Challenge:** "Permission Denied" when trying to use the key.
+    * **Solution:** The key file permissions were too open (e.g., 644). I fixed this by running `chmod 600 sshkey.private` (read/write for owner only).
+* **Challenge:** "System resources" error when connecting to `localhost`.
+    * **Solution:** Bypassed the restriction by using the loopback IP `127.0.0.1` explicitly.
+
+* **At last:** Nothing worked from above , to solve this level i used nano to make key again for that i used cat to cat `sshkey.private` .
+
+### Commands Used
+```bash
+# Setting secure permissions
+chmod 600 sshkey.private
+
+# Logging in via localhost using the key
+ssh -i sshkey.private bandit14@127.0.0.1 -p 2220
+
+## Level 14 → 15: Netcat & Port Submission
+Objective : 
+Submit the current level's password to port 30000 on the local machine to retrieve the password for the next level.
+
+Key Learnings
+Netcat (nc): A utility for reading from and writing to network connections (TCP/UDP).
+
+Piping (|): Used to pass the output of one command (reading the password file) directly as input to another command (sending it to the network port).
+
+Solution Process
+I used cat to read the password file and piped it into nc connecting to localhost on port 30000.
+
+Commands Used
+Bash
+
+cat /etc/bandit_pass/bandit14 | nc localhost 30000
 
 
