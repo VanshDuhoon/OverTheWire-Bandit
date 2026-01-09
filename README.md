@@ -121,8 +121,6 @@ ssh -i sshkey.private bandit14@127.0.0.1 -p 2220
 ```
 
 
-```
-
 ---
 
 
