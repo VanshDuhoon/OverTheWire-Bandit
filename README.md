@@ -118,8 +118,11 @@ chmod 600 sshkey.private
 
 # Logging in via localhost using the key
 ssh -i sshkey.private bandit14@127.0.0.1 -p 2220
+```
+
 
 ---
+
 
 ##  Level 14 → 15: Netcat & Port Submission
 
@@ -136,5 +139,101 @@ I used `cat` to read the password file and piped it into `nc` connecting to loca
 ### Commands Used
 ```bash
 cat /etc/bandit_pass/bandit14 | nc localhost 30000
+```
+---
+
+##  Level 15 → 16: SSL Encryption & OpenSSL
+
+### Objective
+Submit the current level's password to port `30001` on localhost using SSL encryption.
+
+### Key Learnings
+* **SSL/TLS:** Unlike standard Netcat (`nc`), which sends cleartext, many secure services require an encrypted connection.
+* **OpenSSL:** A command-line toolkit for the TLS and SSL protocols.
+
+### Commands Used
+```bash
+# Connect using the SSL client to the specified port
+openssl s_client -connect localhost:30001 -quiet
+(After running the command, I pasted the Level 15 password to receive the credential for Level 16.)
+```
+--- 
+
+## Level 16 → 17: Port Scanning & RSA Keys
+### Objective
+Find a service listening on a port between 31000 and 32000 that speaks SSL, retrieve an RSA private key, and use it to log in.
+
+### Key Learnings
+* **Port Scanning (nmap):** Used to discover open ports on a server.
+
+* **RSA Private Keys: Using a file**-based key for SSH authentication instead of a password.
+
+### Solution Process
+Scanned the port range to find open ports:
+```bash
+
+nmap -p 31000-32000 localhost
+Identified the correct port (running SSL) and connected:
+```
+
+```bash
+
+openssl s_client -connect localhost:31790 -quiet
+Saved the RSA Private Key response to a file (bandit17.key), fixed permissions, and logged in.
+``` 
+### Commands Used
+``` bash
+
+# Create and secure the key file
+nano bandit17.key
+chmod 600 bandit17.key
+
+# Login using the key
+ssh -i bandit17.key bandit17@bandit.labs.overthewire.org -p 2220
+``` 
+
+## Level 17 → 18: File Comparison (Diff)
+### Objective
+Find the password located in passwords.new. The file is identical to passwords.old except for one changed line.
+
+### Key Learnings
+* **diff**: A tool that compares files line-by-line and outputs the differences.
+
+### Commands Used
+```bash
+
+diff passwords.old passwords.new
+``` 
+
+## Level 18 → 19: SSH Command Execution (Shell Trap)
+### Objective
+Log in to Bandit 18, where the shell is configured to immediately log you out ("Byebye!").
+
+### Key Learnings
+* **SSH Command Execution**: You can pass a command to SSH to run before the remote shell starts (and potentially kicks you out).
+
+* **Solution Process**
+Instead of logging in interactively, I appended the command I wanted to run to the SSH connection string.
+
+### Commands Used
+```bash
+
+ssh bandit18@bandit.labs.overthewire.org -p 2220 "cat readme"
+```
+## Level 19 → 20: SUID & Privilege Escalation
+### Objective
+Read the password file /etc/bandit_pass/bandit20. Access is denied for the current user, but a setuid binary is provided.
+
+### Key Learnings
+* **SUID (Set User ID)**: A permission bit that allows a user to execute a file with the permissions of the file's owner (in this case, Bandit 20).
+
+* **Privilege Escalation:** Using a tool with higher privileges to perform actions (like reading a restricted file) that the current user cannot do.
+
+### Commands Used
+``` bash
+
+# Run the binary to execute 'cat' with Bandit 20's permissions
+./bandit20-do cat /etc/bandit_pass/bandit20
+```
 
 
