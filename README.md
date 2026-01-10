@@ -119,12 +119,7 @@ chmod 600 sshkey.private
 # Logging in via localhost using the key
 ssh -i sshkey.private bandit14@127.0.0.1 -p 2220
 ```
-
-
-```
-
 ---
-
 
 ##  Level 14 → 15: Netcat & Port Submission
 
@@ -237,5 +232,38 @@ Read the password file /etc/bandit_pass/bandit20. Access is denied for the curre
 # Run the binary to execute 'cat' with Bandit 20's permissions
 ./bandit20-do cat /etc/bandit_pass/bandit20
 ```
+
+---
+
+## 🚩 Level 20 → 21: Networking (Server-Client Interaction)
+
+### Objective
+Receive the password for the next level by setting up a listener on a specific port and forcing a setuid binary (`suconnect`) to connect to it.
+
+### Key Learnings
+* **Client-Server Architecture:** Understanding that for a connection to happen, one side must "Listen" (Server) and the other must "Connect" (Client).
+* **Netcat (`nc`) Listener:** Using `nc -l` to open a port and wait for incoming data.
+* **Job Control (`&`):** Running a command in the background so the terminal remains usable for a second command.
+
+### Solution Process
+1.  **Set up a Listener:** I used Netcat to listen on port `4444` in the background.
+2.  **Trigger the Client:** I ran the `suconnect` binary, instructing it to connect to my listener.
+3.  **Authentication:** Once connected, I sent the current password to the binary, which responded with the new password.
+
+### Commands Used
+```bash
+# Option A: Using two terminal windows
+# Terminal 1 (Listener)
+nc -l -p 4444
+
+# Terminal 2 (Client Trigger)
+./suconnect 4444
+
+```
+
+# Option B: Using background jobs (&) in one window
+nc -l -p 4444 &
+./suconnect 4444
+# (Then paste the current password and hit Enter )
 
 
