@@ -5,7 +5,7 @@ This repository contains my solutions and the commands I used to solve the **Ban
 ## ⚠️ Spoiler Warning
 If you are playing this game, try solving the levels yourself first!
 
-## Levels Completed: 0 to 13
+## Levels Completed: 0 to 20
 
 # OverTheWire Bandit Solutions
 
@@ -119,6 +119,10 @@ chmod 600 sshkey.private
 # Logging in via localhost using the key
 ssh -i sshkey.private bandit14@127.0.0.1 -p 2220
 ```
+
+
+```
+
 ---
 
 ##  Level 14 → 15: Netcat & Port Submission
