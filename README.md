@@ -239,7 +239,7 @@ Read the password file /etc/bandit_pass/bandit20. Access is denied for the curre
 
 ---
 
-## 🚩 Level 20 → 21: Networking (Server-Client Interaction)
+## Level 20 → 21: Networking (Server-Client Interaction)
 
 ### Objective
 Receive the password for the next level by setting up a listener on a specific port and forcing a setuid binary (`suconnect`) to connect to it.
@@ -265,9 +265,99 @@ nc -l -p 4444
 
 ```
 
-# Option B: Using background jobs (&) in one window
+## Option B: Using background jobs (&) in one window
 nc -l -p 4444 &
 ./suconnect 4444
-# (Then paste the current password and hit Enter )
+## (Then paste the current password and hit Enter )
+
+---
+
+##  Level 21 → 22: Cron Jobs & Automation
+
+### Objective
+The password is being moved automatically by a "Cron Job" running in the background. The goal is to identify the schedule and find the target file.
+
+### Key Learnings
+* **Cron (`/etc/cron.d/`):** The standard location for system scheduled tasks.
+* **Analyzing Scripts:** Reading shell scripts (`.sh`) to understand what the system is doing automatically.
+
+### Solution Process
+1.  Checked `/etc/cron.d/` and found a job named `cronjob_bandit22`.
+2.  Read the job file, which pointed to a script: `/usr/bin/cronjob_bandit22.sh`.
+3.  Analyzed the script and found it copies the password to a temp file in `/tmp/`.
+4.  Read that temp file to get the password.
+
+### Commands Used
+```bash
+ls -la /etc/cron.d/
+cat /usr/bin/cronjob_bandit22.sh
+cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv  # (Filename varies)
+``` 
+
+## Level 22 → 23: Script Logic & Hashing
+### ojective
+A script copies the password to a filename that changes based on the username. We need to determine what the filename would be for the next user (bandit23).
+
+### Key Learnings
+Reverse Engineering Logic: Reading code to understand how a filename is generated.
+
+MD5 Hashing (md5sum): Converting a string of text into a unique fingerprint.
+
+Command Substitution ($()): How scripts use the output of one command inside another.
+
+### Solution Process
+Found the script for the next level (cronjob_bandit23).
+
+Noticed it uses echo I am user $myname | md5sum to create the filename.
+
+Manually ran that command, replacing $myname with bandit23.
+
+Used the resulting hash to read the password file in /tmp/.
+
+### Commands Used
+
+```bash 
+# Calculate the target filename manually
+echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+
+# Read the file using the hash we just found
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+``` 
+
+## Level 23 → 24: Shell Script Injection
+### Objective
+The system runs any script found in /var/spool/bandit24/foo. We need to write a script to steal the password and place it there.
+
+### Key Learnings
+Writing Shell Scripts: Creating a simple .sh file to execute commands.
+
+* **Permissions (chmod):** Making a script "executable" so the system can run it, and "writable" so we can edit it.
+
+* **Redirection (>):** sending output to a file instead of the screen.
+
+### Solution Process
+Created a temporary workspace: mkdir /tmp/mywork.
+
+Wrote a script that reads the password and saves it to a file in my folder.
+
+Made the script executable (chmod 777).
+
+Copied the script to the "trap" folder (/var/spool/bandit24/foo).
+
+Waited for the Cron job to trigger it.
+
+### Commands Used
+
+```bash
+# Inside myscript.sh:
+#!/bin/bash
+cat /etc/bandit_pass/bandit24 > /tmp/mywork/pass.txt
+chmod 666 /tmp/mywork/pass.txt
+
+# Setup commands:
+chmod 777 myscript.sh
+chmod 777 /tmp/mywork
+cp myscript.sh /var/spool/bandit24/foo/
+```
 
 
