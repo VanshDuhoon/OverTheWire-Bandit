@@ -360,4 +360,81 @@ chmod 777 /tmp/mywork
 cp myscript.sh /var/spool/bandit24/foo/
 ```
 
+---
 
+##  Level 24 → 25: Network Brute Forcing
+
+### Objective
+We had the password but needed a secret 4-digit PIN to authenticate with a daemon listening on port 30002.
+
+### Key Learnings
+* **Bash For Loops:** Generating sequences of numbers (0000-9999).
+* **Piping:** Sending the output of a script directly into a network connection (`nc`).
+* **Grep:** Filtering output to find the "needle in the haystack".
+
+### Solution Process
+1.  Created a script to generate all possible PINs paired with the password.
+2.  Piped this output into `nc localhost 30002`.
+3.  Filtered the response to hide "Wrong" messages.
+
+### Commands Used
+```bash
+# One-liner to brute force the PIN
+for i in {0000..9999}; do echo "VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar $i"; done | nc localhost 30002 | grep -v "Wrong"
+```
+
+## Level 25 → 26: Shell Jailbreaking (Restricted Shell)
+### Objective
+Login as bandit26 using a provided SSH key. The account uses a non-standard shell that kicks us out immediately. We need to "break out" of this trap.
+
+### Key Learnings
+* **Restricted Shells:** Environments designed to limit user actions.
+
+* **Pager Vulnerability (more):** If the terminal is too small to show all text, more pauses. While paused, it can execute commands.
+
+* **Vim Privilege Escalation:** The Vim editor allows spawning a system shell.
+
+### Solution Process
+Found bandit26.sshkey in the home directory.
+
+* **The Hack:** Resized the terminal window to be very small (5 lines).
+
+Logged in. The login script paused at --More-- because the text couldn't fit.
+
+Pressed v to launch Vim.
+
+Used Vim commands to force a Bash shell to spawn.
+
+Commands Used
+```bash
+
+# Login (window must be tiny)
+ssh -i bandit26.sshkey bandit26@localhost -p 2220
+
+# Inside Vim (after pressing 'v'):
+:set shell=/bin/bash
+:shell
+```
+
+## Level 26 → 27: SUID Privilege Escalation
+### Objective
+Now logged in as bandit26, we need the password for bandit27. We found a binary executable named bandit27-do.
+
+### Key Learnings
+SUID (Set User ID): A Linux file permission that executes a file with the permissions of the owner (bandit27), not the user (bandit26).
+
+* **Wrapper Binaries:** Programs created specifically to run commands as another user.
+
+### Solution Process
+Identified bandit27-do in the home directory.
+
+Tested it to see it runs commands as the next user.
+
+Used it to read the password file.
+
+### Commands Used
+```bash
+
+# Run 'cat' with the privileges of bandit27
+./bandit27-do cat /etc/bandit_pass/bandit27
+```
