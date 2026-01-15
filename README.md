@@ -537,28 +537,28 @@ $0  # Spawns a new shell
 
 bandit 01 : ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If
 bandit 02 : 263JGJPfgU6LtdEvgfWU1XP5yac29mFx
-bandit 03 : MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx
-bandit 04 : 2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ
+bandit 03 : MNk8KNH3UsiiO41PRUEoDFPqfxLPlSmx
+bandit 04 : 2WmrDFRmJlq3IPxneAaMGhap0pFhF3NJ
 bandit 05 : 4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
 bandit 06 : HWasnPhtq9AVKe0dmk45nxy20cvUa6EG
 bandit 07 : morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj
 bandit 08 : dfwvzFQi4mU0wfNbFOe9RoWskMLg7eEc
-bandit 09 : 4CKMh1JI91bUIZZPXDqGanal4xvAg0JM
-bandit 10 : FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey
+bandit 09 : 4CKMh1JI91bUIZZPXDqGanal4xvAgOJM
+bandit 10 : FGUW5ilVJrxX9kMYMmlN4MgbpfMiqey
 bandit 11 : dtR173fZKb0RRsDFSGsg2RWnpNVj3qRr
 bandit 12 : 7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4
-bandit 13 : FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn
+bandit 13 : FO5dwFsc0cbaliH0h8J2eUks2vdTDwAn
 bandit 14 : sshkey.private
 bandit 15 : 8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
 bandit 16 : kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
-bandit 17 : pGozC8kOHLkBMOaL0ICPvLV1IjQ5F1VA
-bandit 18 : x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+bandit 17 : pGozC8kOHLkBMOaL0lCPvLV1ljQ5F1VA
+bandit 18 : x2gLTTjFwMOHq8oWNbMN362QKxfRqGIO
 bandit 19 : cGWpMaKXVwDUNgPAVJbWYuGHVn9zl3j8
 bandit 20 : 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO
 bandit 21 : EeoULMCra2q0dSkYj561DX7s1CpBuOBt
-bandit 22 : tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q
+bandit 22 : tRaE0UfB9v0UzbCdn9cY0gQnds9GF58Q
 bandit 23 : 0Zf11ioIjMVN551jX3CmStKLYqjk54Ga
-bandit 24 : gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8
+bandit 24 : gb8KRRCsshuZXI0tUuR6ypOfjiZbf3G8
 bandit 25 : iCi86ttT4KSNe1armKiwbQNmB3YJP3q4
 bandit 26 : private key
 bandit 27 : upsNCc7vzaRDx6oZC6GiR6ERwe1MowGB
@@ -567,5 +567,4 @@ bandit 29 : 4pT1t5DENaYuqnqvadYs1oE4QLCdjmJ7
 bandit 30 : qp30ex3VLz5MDG1n91YowTv4Q8l7CDZL
 bandit 31 : fb5S2xb7bRyFmAvQYQGEqsbhVyJqhnDy
 bandit 32 : 3O9RfhqyAlVBEZpVb6LYStshZoqoSx5K
-bandit 33 : tQdtbs5D5i2vJwkO8mEyYEyTL8izoeJ0 
-
+bandit 33 : tQdtbs5D5i2vJwkO8meYYEyTL8izoeJ0
