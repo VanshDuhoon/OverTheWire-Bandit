@@ -5,7 +5,7 @@ This repository contains my solutions and the commands I used to solve the **Ban
 ##  Spoiler Warning
 If you are playing this game, try solving the levels yourself first!
 
-## Levels Completed: 0 to 20
+## Levels Completed: 0 to 33
 
 # OverTheWire Bandit Solutions
 
