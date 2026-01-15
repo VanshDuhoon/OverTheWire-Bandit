@@ -535,6 +535,7 @@ $0  # Spawns a new shell
 
 ## Passwords
 
+```text
 bandit 01 : ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If
 bandit 02 : 263JGJPfgU6LtdEvgfWU1XP5yac29mFx
 bandit 03 : MNk8KNH3UsiiO41PRUEoDFPqfxLPlSmx
@@ -568,3 +569,5 @@ bandit 30 : qp30ex3VLz5MDG1n91YowTv4Q8l7CDZL
 bandit 31 : fb5S2xb7bRyFmAvQYQGEqsbhVyJqhnDy
 bandit 32 : 3O9RfhqyAlVBEZpVb6LYStshZoqoSx5K
 bandit 33 : tQdtbs5D5i2vJwkO8meYYEyTL8izoeJ0
+```
+
