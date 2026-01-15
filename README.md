@@ -438,3 +438,119 @@ Used it to read the password file.
 # Run 'cat' with the privileges of bandit27
 ./bandit27-do cat /etc/bandit_pass/bandit27
 ```
+
+---
+
+##  Level 27 → 28: Git Clone & Localhost Bypass
+
+### Objective
+The password is in a Git repository, but the server blocks cloning via `localhost`.
+
+### Solution Process
+1.  Tried cloning inside Bandit using `localhost`, but it was blocked.
+2.  **Workaround:** Cloned the repo from the **local machine** (laptop) connecting to the external address.
+3.  Found the password in the `README` file of the cloned repo.
+
+### Commands Used
+```bash
+# Run from local machine (outside the game server)
+git clone ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo
+```
+
+## Level 28 → 29: Git History (Deleted Data)
+### Objective
+The password was deleted from the repository in a "fix". We needed to recover it from the history.
+
+### Solution Process
+1. Checked the commit log (git log) and found a suspicious commit: "fix info leak".
+
+2. Inspected that specific commit to see what was removed (Red text).
+
+### Commands Used
+``` bash
+git log
+git show <commit_hash>  # Or simply: git show HEAD
+```
+---
+
+## Level 29 → 30: Git Branches
+### Objective
+The password is not in the main branch. We had to find a hidden development branch.
+
+### Solution Process
+1. Listed all branches (remote and local).
+
+2. Switched to the dev branch.
+
+3. Read the README.md file again.
+
+### Commands Used
+```bash
+
+git branch -a        # List all branches
+git checkout dev     # Switch to 'dev' branch
+cat README.md
+```
+---
+
+## Level 30 → 31: Git Tags
+### Objective
+The password is hidden in a Git Tag (a bookmark for specific versions).
+
+### Solution Process
+1. Checked for existing tags.
+
+2. Found a tag named secret.
+
+3. Displayed the content of that tag.
+
+### Commands Used
+```bash
+
+git tag
+git show secret
+```
+## Level 31 → 32: Git Push & .gitignore
+### Objective
+We had to push a file named key.txt containing "May I come in?" to the server.
+
+### Challenges
+**.gitignore:** The server ignored .txt files. We had to force add it.
+
+**Encoding:** PowerShell created the file in UTF-16, which the Linux server rejected ("Wrong!"). We converted it to ASCII.
+
+### Solution Process
+Created the file with ASCII encoding.
+
+Used -f to force add the ignored file.
+
+Pushed the file. The remote server printed the password in the error message.
+
+### Commands Used
+```bash
+
+# PowerShell specific fix for encoding
+"May I come in?" | Out-File -FilePath key.txt -Encoding ascii
+
+# Git commands
+git add -f key.txt
+git commit -m "Upload key"
+git push
+```
+
+## Level 32 → 33: Uppercase Shell Jailbreak
+### Objective
+The shell converts all commands to UPPERCASE (ls becomes LS), causing "command not found" errors. We needed to execute a shell without using lowercase letters.
+
+### Solution Process
+Used the special variable $0.
+
+In Linux, $0 holds the name of the current shell (usually sh or bash).
+
+Since $0 expands to sh (which is lowercase), it executed a new shell instance, bypassing the uppercase filter.
+
+### Commands Used
+```bash
+
+$0  # Spawns a new shell
+```
